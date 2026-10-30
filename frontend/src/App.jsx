@@ -9,8 +9,7 @@ function App() {
       setInput('0');
     } else if (value === '=') {// Extracts the numbers and operator from the expression
 
-      const match = input.match(/^(-?\d+(?:\.\d+)?)([+\-x÷])(-?\d+(?:\.\d+)?)$/);
-      if (!match) {
+      const match = input.match(/^(-?\d+(?:\.\d+)?)([+\-x÷%])(-?\d+(?:\.\d+)?)$/); if (!match) {
         setInput('Error');
         return;
       }
@@ -24,7 +23,8 @@ function App() {
         '+': 'addition',
         '-': 'reduction',
         'x': 'multiply',
-        '÷': 'division'
+        '÷': 'division',
+        '%': 'percentage'
       };
 
       try {
@@ -77,7 +77,7 @@ function App() {
     '7', '8', '9', 'x',
     '4', '5', '6', '-',
     '1', '2', '3', '+',
-    '0', '.', '='
+    '0', '.', '=',
   ];
 
   return (
