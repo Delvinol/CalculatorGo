@@ -111,7 +111,7 @@ Supported operations: `addition`, `reduction`, `multiply`, `division`, `percenta
 - **Error handling:** Validates operations and prevents division by zero and invalid square roots.
 
 ## Helps
-- **Github:** to create the Frontend interface I used this repository as example https://github.com/Sehan1109/Real-calculator-app I had to find a way to make this and the backend to communicate properly after!
+- **Github:** to create the Frontend interface I used this repository as example https://github.com/Sehan1109/Real-calculator-app
 - I asked Claude and ChatGPT regarding subjects to study this week to accomplish this project!
 
 
