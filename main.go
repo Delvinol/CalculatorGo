@@ -4,7 +4,10 @@
 package main
 
 import(
-	
+	"encoding/json"
+	"fmt"
+	"log"
+	"net/http"
 )
 
 // Operation represents a calculation request
@@ -27,10 +30,38 @@ func (op * Operation) Calculate() error {
 		op.Result = op.Number1 - op.Number2
 	case "multiply":
 		op.Result = op.Number1 * op.Number2
-	case "division"
+	case "division":
 		if op.Number2 == 0 {
-			return fmt.Errorf
-		}
+			return fmt.Errorf("No valid operation: %s", op.Operation)
+		} 
+	return nil
+	}	
+}
+
+// calculateHandler process POST /calculate with body JSON
+// Wait for a JSON with number1, number2 and operation, and answers the JSON with the result
+func calculateHandler(w http.ResponseWriter, r *http.Request) {
+	// Only allow POST
+	if r.Method != http.MethodPost{
+		http.Error(w, "Method not allowed - use POST", http.StatusMethodNotAllowed)
+		return
 	}
-			
+
+	// Decode JSON
+	var op Operation
+	dec := json.NewDecoder(r.Body)
+	if err := dec.Decode(&op); err != nil {
+		http.Error(w, "Error reading JSON: "+err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	// Execute calculation
+	if err := op.Calculate(); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	// Answering with JSON
+	w.Header().Set("Content-Type", "application/json")
+	if err := json.NewEncoder(w).
 }
