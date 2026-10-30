@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"math"
 	"net/http"
 )
 
@@ -35,6 +36,13 @@ func (op *Operation) Calculate() error {
 			return fmt.Errorf("Undefined: %s", op.Operation)
 		}
 		op.Result = op.Number1 / op.Number2
+	case "percentage":
+		op.Result = op.Number1 * op.Number2 / 100
+	case "square_root":
+		if op.Number1 < 0 {
+			return fmt.Errorf("Cannot calculate square root of a negative number")
+		}
+		op.Result = math.Sqrt(op.Number1)
 	default:
 		return fmt.Errorf("not valid operation: %s :(", op.Operation)
 	}
