@@ -7,6 +7,40 @@ function App() {
   const handleClick = async (value) => {
     if (value === 'C') {
       setInput('0');
+    } else if (value === '√') {
+      // Calculates the square root through the Go API
+      const number = Number(input);
+
+      if (!Number.isFinite(number) || number < 0) {
+        setInput('Error');
+        return;
+      }
+
+      try {
+        const response = await fetch('/calculate', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            number1: number,
+            number2: 0,
+            operacion: 'square_root'
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error(await response.text());
+        }
+
+        const data = await response.json();
+        setInput(String(data.result));
+
+      } catch (error) {
+        console.error('API Error:', error);
+        setInput('Error');
+      }
+
     } else if (value === '=') {// Extracts the numbers and operator from the expression
 
       const match = input.match(/^(-?\d+(?:\.\d+)?)([+\-x÷%])(-?\d+(?:\.\d+)?)$/); if (!match) {
@@ -73,11 +107,11 @@ function App() {
 
   //Buttons we are going to  use
   const buttons = [
-    'C', '+-', '%', '÷',
-    '7', '8', '9', 'x',
-    '4', '5', '6', '-',
-    '1', '2', '3', '+',
-    '0', '.', '=',
+    'C', '+-', '%', '√',
+    '7', '8', '9', '÷',
+    '4', '5', '6', 'x',
+    '1', '2', '3', '-',
+    '0', '.', '=', '+'
   ];
 
   return (
@@ -92,7 +126,7 @@ function App() {
                   ? 'equals'
                   : btn === 'C'
                     ? 'clear'
-                    : ['+', '-', 'x', '÷', '%'].includes(btn)
+                    : ['+', '-', 'x', '÷', '%', '√'].includes(btn)
                       ? 'operator'
                       : ''
               }
