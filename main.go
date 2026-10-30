@@ -32,7 +32,7 @@ func (op *Operation) Calculate() error {
 		op.Result = op.Number1 * op.Number2
 	case "division":
 		if op.Number2 == 0 {
-			return fmt.Errorf("No valid operation: %s", op.Operation)
+			return fmt.Errorf("Undefined: %s", op.Operation)
 		}
 		op.Result = op.Number1 / op.Number2
 	default:
